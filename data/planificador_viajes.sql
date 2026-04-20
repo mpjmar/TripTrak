@@ -15,7 +15,7 @@ CREATE TABLE destino (
   pais VARCHAR(100),
   mapa_destino VARCHAR(255),
   viaje_id INT,
-  FOREIGN KEY (viaje_id) REFERENCES viajes(id) 
+  FOREIGN KEY (viaje_id) REFERENCES viaje(id) 
                           ON DELETE CASCADE
 );
 
@@ -31,9 +31,9 @@ CREATE TABLE actividad (
   fecha DATE,
   hora TIME,
   destino_id INT,
-  FOREIGN KEY (destino_id) REFERENCES destinos(id) 
-                            ON DELETE CASCADE
   transporte_id INT,
+  FOREIGN KEY (destino_id) REFERENCES destino(id) 
+                            ON DELETE CASCADE,
   FOREIGN KEY (transporte_id) REFERENCES transporte(id) 
                             ON DELETE SET NULL
 );
@@ -50,7 +50,10 @@ CREATE TABLE ruta (
   mapa_llegada VARCHAR(255),
   destino_id INT,
   transporte_id INT,
+  actividad_id INT,
   FOREIGN KEY (actividad_id) REFERENCES actividad(id) 
+                            ON DELETE CASCADE,
+  FOREIGN KEY (destino_id) REFERENCES destino(id) 
                             ON DELETE CASCADE,
   FOREIGN KEY (transporte_id) REFERENCES transporte(id) 
                             ON DELETE SET NULL
@@ -92,7 +95,7 @@ CREATE TABLE alojamiento (
   precio DECIMAL(10, 2),
   contacto VARCHAR(100),
   destino_id INT,
-  FOREIGN KEY (destino_id) REFERENCES destinos(id) 
+  FOREIGN KEY (destino_id) REFERENCES destino(id) 
                             ON DELETE CASCADE
 );
 
@@ -105,7 +108,7 @@ CREATE TABLE transporte (
   duracion INT,
   precio DECIMAL(10, 2),
   destino_id INT,
-  FOREIGN KEY (destino_id) REFERENCES destinos(id) 
+  FOREIGN KEY (destino_id) REFERENCES destino(id) 
                             ON DELETE CASCADE
 );
 
@@ -117,7 +120,7 @@ CREATE TABLE restaurante (
   precio DECIMAL(10, 2),
   contacto VARCHAR(100),
   destino_id INT,
-  FOREIGN KEY (destino_id) REFERENCES destinos(id) 
+  FOREIGN KEY (destino_id) REFERENCES destino(id) 
                             ON DELETE CASCADE
 );
 
@@ -126,7 +129,7 @@ CREATE TABLE gasto (
   total DECIMAL(10, 2),
   concepto VARCHAR(255),
   viaje_id INT,
-  FOREIGN KEY (viaje_id) REFERENCES viajes(id) 
+  FOREIGN KEY (viaje_id) REFERENCES viaje(id) 
                           ON DELETE CASCADE
 );
 
@@ -136,7 +139,7 @@ CREATE TABLE nota (
   contenido TEXT,
   fecha DATE,
   viaje_id INT,
-  FOREIGN KEY (viaje_id) REFERENCES viajes(id) 
+  FOREIGN KEY (viaje_id) REFERENCES viaje(id) 
                           ON DELETE CASCADE
 );
 
