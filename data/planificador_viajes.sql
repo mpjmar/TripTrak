@@ -13,6 +13,7 @@ CREATE TABLE destino (
   ciudad VARCHAR(100),
   localidad VARCHAR(100),
   pais VARCHAR(100),
+  mapa_destino VARCHAR(255),
   viaje_id INT,
   FOREIGN KEY (viaje_id) REFERENCES viajes(id) 
                           ON DELETE CASCADE
@@ -26,6 +27,7 @@ CREATE TABLE actividad (
   duracion INT,
   precio DECIMAL(10, 2),
   localizacion VARCHAR(255),
+  mapa_actividad VARCHAR(255),
   fecha DATE,
   hora TIME,
   destino_id INT,
@@ -44,9 +46,11 @@ CREATE TABLE ruta (
   descripcion TEXT,
   salida VARCHAR(255),
   llegada VARCHAR(255),
+  mapa_salida VARCHAR(255),
+  mapa_llegada VARCHAR(255),
   destino_id INT,
   transporte_id INT,
-  FOREIGN KEY (destino_id) REFERENCES destinos(id) 
+  FOREIGN KEY (actividad_id) REFERENCES actividad(id) 
                             ON DELETE CASCADE,
   FOREIGN KEY (transporte_id) REFERENCES transporte(id) 
                             ON DELETE SET NULL
@@ -56,8 +60,8 @@ CREATE TABLE visita (
   id INT AUTO_INCREMENT PRIMARY KEY,
   lugar VARCHAR(255),
   descripcion TEXT,
-  destino_id INT,
-  FOREIGN KEY (destino_id) REFERENCES destinos(id) 
+  actividad_id INT,
+  FOREIGN KEY (actividad_id) REFERENCES actividad(id) 
                             ON DELETE CASCADE
 );
 
@@ -66,8 +70,8 @@ CREATE TABLE excursion (
   nombre VARCHAR(100),
   descripcion TEXT,
   precio DECIMAL(10, 2),
-  destino_id INT,
-  FOREIGN KEY (destino_id) REFERENCES destinos(id) 
+  actividad_id INT,
+  FOREIGN KEY (actividad_id) REFERENCES actividad(id) 
                             ON DELETE CASCADE
 );
 
@@ -75,8 +79,8 @@ CREATE TABLE punto_interes (
   id INT AUTO_INCREMENT PRIMARY KEY,
   nombre VARCHAR(100),
   descripcion TEXT,
-  destino_id INT,
-  FOREIGN KEY (destino_id) REFERENCES destinos(id) 
+  actividad_id INT,
+  FOREIGN KEY (actividad_id) REFERENCES actividad(id) 
                             ON DELETE CASCADE
 );
 
@@ -100,6 +104,18 @@ CREATE TABLE transporte (
   hora_llegada TIME,
   duracion INT,
   precio DECIMAL(10, 2),
+  destino_id INT,
+  FOREIGN KEY (destino_id) REFERENCES destinos(id) 
+                            ON DELETE CASCADE
+);
+
+CREATE TABLE restaurante (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  nombre VARCHAR(100),
+  direccion VARCHAR(255),
+  tipo_cocina VARCHAR(100),
+  precio DECIMAL(10, 2),
+  contacto VARCHAR(100),
   destino_id INT,
   FOREIGN KEY (destino_id) REFERENCES destinos(id) 
                             ON DELETE CASCADE
